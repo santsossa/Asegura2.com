@@ -1,30 +1,19 @@
 import { Router } from "express";
-const router = Router();
-import UserDao from "../DAO/user.dao.js";
-const userDao = new UserDao();
+import UserControllers from "../controllers/users.controller.js";
+import { passportCall }  from "../passport/passportCall.js"
+import { isAdmin } from "../middlewares/isAdmin.js";
 
-router.post("/registro", async (req, res) => {
-  try {
-    const newUser = await userDao.register(req.body);
-    if(newUser) res.redirect('/login');
-    else res.redirect('/errorRegistro');
-  } catch (error) {
-    res.json({message: error.message})
-  }
-});
+const controller = new UserControllers;
+const router= Router();
 
-router.post("/login", async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const user = await userDao.login(email, password);
-        if(user) {
-            req.session.email = email;
-            req.session.password = password;
-            res.redirect('/perfil')
-        } else res.redirect('/errorLogin');
-    } catch (error) {
-      res.json({message: error.message})
-    }
-});
+router.post("/register", controller.register);
+
+router.post("/login", controller.login);
+
+router.post("/auth",  controller.verify);
+
+router.get("/current", passportCall('current'), controller.profile)
+
+router.get("/panel-admin", passportCall('current'), isAdmin, controller.profile)
 
 export default router;

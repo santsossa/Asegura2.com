@@ -22,7 +22,16 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    default: "user",
+  },
+  isGoogle: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 });
-
-export const UserModel = model("Users", userSchema);
+const usersColl= "users"
+export const UserModel = model(usersColl, userSchema);
 
