@@ -3,6 +3,7 @@ import path from "path"
 import mongoose from "mongoose";
 import multer from "multer";
 import methodOverride from "method-override";
+import compression from 'express-compression';  
 import morgan from "morgan";
 import "./passport/jwt.js"
 import { errorHandler } from "./middlewares/errorHandler.js";
@@ -22,7 +23,8 @@ app
   .use(morgan("dev"))
   .use(cookieParser())
   .use("/api", mainRouter.getRouter())
-  .use(errorHandler);
+  .use(errorHandler)
+  .use(compression({brotli: {enabled: true, zlib:{}}}));
 
 initMongoDB()
   .then(() => console.log("Base de datos conectada"))
