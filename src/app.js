@@ -1,13 +1,8 @@
 import express, { json, urlencoded } from "express"
-import path from "path"
-import mongoose from "mongoose";
-import multer from "multer";
-import methodOverride from "method-override";
 import compression from 'express-compression';  
 import morgan from "morgan";
 import "./passport/jwt.js"
 import { errorHandler } from "./middlewares/errorHandler.js";
-import session from "express-session";
 import cookieParser from "cookie-parser";
 import { initMongoDB } from "./db/dbConfig.js";
 import MainRouter from "./routes/index.js";

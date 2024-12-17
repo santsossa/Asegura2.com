@@ -1,5 +1,6 @@
 import Services from "./class.services.js";
 import ClientDaoMongo from "../DAO/clients.dao.js";
+import { generateClients } from "../utils/faker.js";
 
 const clientDao = new ClientDaoMongo()
 
@@ -23,30 +24,18 @@ export default class ClientService extends Services {
 
   async getBySearch(search) {
     try {
-        // Definir el objeto de condición de búsqueda
         const searchCondition = {};
         const searchableFields = ['nombre', 'apellido', 'correo', 'cedula', 'estado'];
-        
-        // Buscar solo en los campos que contienen el término de búsqueda
-        // Usamos '$or' para que se pueda hacer una búsqueda en cualquiera de los campos
         const orConditions = searchableFields.map((field) => ({
             [field]: { $regex: search, $options: 'i' }
         }));
-
-        // Usamos '$or' para combinar todas las búsquedas
         searchCondition.$or = orConditions;
-
-        // Llamamos a la función que realiza la búsqueda en la base de datos
         const results = await this.dao.getClientBySearch(searchCondition);
-        
-        // Si no encontramos resultados, retornamos null
-        if (results.length === 0) {
+                if (results.length === 0) {
             return null;
         }
-        
         return results;
     } catch (error) {
-        // Lanzamos un error si algo sale mal
         throw new Error(error);
     }
 }
@@ -59,5 +48,19 @@ export default class ClientService extends Services {
     } catch (error) {
         throw new Error(error)
     }
+  }
+
+  async generateUsers(cant){
+    try{
+      const clients= generateClients(cant)
+      if (clients){
+        const clientesDB= await this.dao.postClients(clients)
+        if (clientesDB) return clientesDB
+        return null
+      }
+      return null
+    }catch (error) {
+      throw new Error(error)
+  }
   }
 }

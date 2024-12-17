@@ -26,7 +26,6 @@ export default class ClientControllers extends Controllers{
     search = async(req, res, next) =>{
     try {
         const { search }= req.query;
-        console.log(search)
         if (!search) {
             return res.status(400).json({ message: "search parameter is required" });
           }
@@ -40,6 +39,16 @@ export default class ClientControllers extends Controllers{
     inicialData= async (req, res, next)=>{
         try{
             const data= await this.service.getInicial();
+            !data ? createResponse(req, res, 404, data) : createResponse(req, res, 200, data);
+        }catch (error) {
+            next(error);
+            }
+    }
+
+    mockUsers= async(req, res, next)=>{
+        try{
+            const {cant}=req.params;
+            const data= await this.service.generateUsers(cant);
             !data ? createResponse(req, res, 404, data) : createResponse(req, res, 200, data);
         }catch (error) {
             next(error);

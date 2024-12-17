@@ -13,5 +13,6 @@ router.get("/status", passportCall('current'), controller.status);
 
 router.get("/search", passportCall('current'), controller.search);
 
+router.post("/generate-clients/:cant", passportCall('current'), isAdmin,  controller.mockUsers);
 
 export default router;

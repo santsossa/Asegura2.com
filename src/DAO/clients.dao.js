@@ -28,4 +28,12 @@ export default class ClientDaoMongo extends MongoDao {
             throw new Error(error)
         }
     }
+
+    async postClients(clients){
+        try{
+            return await this.model.insertMany(clients);
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
 }
