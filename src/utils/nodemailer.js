@@ -1,43 +1,12 @@
-import path, { dirname } from "path";
-import { fileURLToPath } from "url";
-import { fakerES as faker } from "@faker-js/faker";
 import nodemailer from "nodemailer";
+import { fileURLToPath } from "url";
+import path, { dirname } from "path";
 export const __dirname = dirname(fileURLToPath(import.meta.url));
 
-//encrptacion de password
-import bcrypt from "bcrypt";
 
-export const createHash = (password) =>
-    bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-
-export const isValidPassword = (password, user) =>
-    bcrypt.compareSync(password, user.password);
-
-
-
-// crear respuestas estandarizadas
-export const createResponse = (req, res, statusCode, data, error= null, message="") =>{
-    return res.status(statusCode).json({
-        message,
-        data, 
-        status: statusCode,
-        error,
-        path: req.url        
-    })
-}
-
-// Generar datos de prueba 
-
-export const generateData=()=>{
-    return{
-        name: faker.person.firstName(),
-        last_name: faker.person.lastName(),
-        email: faker.internet.email(),
-    }
-}
-
-// Nodemailer config y configuracion codigo de seguridad
 const cache = {};
+
+
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -100,4 +69,3 @@ export function validarCodigoSeguridad(email, codigoIngresado) {
     console.log('Código incorrecto');
     return false;
 }
-

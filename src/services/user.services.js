@@ -1,10 +1,10 @@
 import Services from "./class.services.js";
 import UserDaoMongo from "../DAO/user.dao.js";
 import "dotenv/config";
-import { createHash, isValidPassword, enviarCodigoSeguridad, validarCodigoSeguridad } from "../utils.js";
+import { enviarCodigoSeguridad, validarCodigoSeguridad } from "../utils/nodemailer.js"
+import { createHash, isValidPassword } from "../utils/bcrypt.js";
 import UserDTO from "../dto/user.dto.js";
 import Auth from "../middlewares/auth.js";
-
 const auth= new Auth();
 const userDao = new UserDaoMongo();
 
@@ -55,9 +55,6 @@ export default class UserService extends Services {
       throw new Error(error)
     }
   }
-
-
-
   getUserById = async (id) => {
     try {
       const user = await this.dao.getUserById(id);
@@ -66,4 +63,4 @@ export default class UserService extends Services {
       throw new Error(error);
     }
   };
-} 
+}
