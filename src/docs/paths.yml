@@ -1,0 +1,72 @@
+# paths.yml
+paths:
+  /api/users/register:
+    post:
+      tags:
+        - Users
+      summary: Registro de usuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/RegisterUser'
+        required: true
+      responses:
+        200:
+          description: Registro exitoso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users/RegisterResponse'
+        404:
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users/UserExistsResponse'
+
+  /api/users/login:
+    post:
+      tags:
+        - Users
+      summary: Login de usuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/LoginUser'
+        required: true
+      responses:
+        200:
+          description: Login exitoso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users/LoginResponse'
+        401:
+          description: Credenciales incorrectas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users/ErrorResponse'
+  /api/users/current:
+    get:
+      tags:
+        - Users
+      summary: Obtener datos del usuario autenticado
+      responses:
+        200:
+          description: Datos del usuario
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users/VerificationResponse'
+        401:
+          description: No autorizado (Token JWT inválido o no proporcionado)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users/ErrorResponse'
+      security:
+        - BearerAuth: []
+

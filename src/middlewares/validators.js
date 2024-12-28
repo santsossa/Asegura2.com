@@ -7,9 +7,7 @@ export const validateUserData = [
   body('last_name').not().isEmpty().withMessage('El apellido es obligatorio'),
 
   body('email')
-    .isEmail().withMessage('Debe ser un correo electrónico válido')
-    .matches('@asegura2.com.co$').withMessage('El correo debe ser de la organización (@asegura2.com.co)'),
-
+    .isEmail().withMessage('Debe ser un correo electrónico válido'),
   body('age')
     .isNumeric().withMessage('La edad debe ser un número')
     .custom(value => {

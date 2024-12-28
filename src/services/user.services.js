@@ -1,11 +1,11 @@
 import Services from "./class.services.js";
-import UserDaoMongo from "../DAO/user.dao.js";
+import UserDaoMongo from "../DAO/user.dao.js"
 import "dotenv/config";
-import { enviarCodigoSeguridad, validarCodigoSeguridad } from "../utils/nodemailer.js"
 import { createHash, isValidPassword } from "../utils/bcrypt.js";
 import UserDTO from "../dto/user.dto.js";
 import Auth from "../middlewares/auth.js";
-const auth= new Auth();
+
+const auth = new Auth();
 const userDao = new UserDaoMongo();
 
 export default class UserService extends Services {
@@ -22,7 +22,7 @@ export default class UserService extends Services {
           ...user,
           password: createHash(password),
         });
-        console.log(newUser)
+        console.log(newUser);
         return newUser;
       }
       return null;
@@ -36,25 +36,19 @@ export default class UserService extends Services {
       const { email, password } = user;
       const userExist = await this.dao.getByEmail(email);
       if (!userExist) return null;
+      
       const passValid = isValidPassword(password, userExist);
       if (!passValid) return null;
-      if (userExist && passValid) enviarCodigoSeguridad(email)
-      if (enviarCodigoSeguridad) return userExist
-      return null
+
+      // Si el usuario existe y la contraseña es válida, generamos el token
+      const token = auth.generateToken(userExist);
+      
+      return { user: new UserDTO(userExist), token };
     } catch (error) {
       throw new Error(error);
     }
   }
-  async verifyCode(user,codigoIngresado){
-    try{
-      const { email } = user;
-      const validarCodigo= validarCodigoSeguridad(email,codigoIngresado);
-      if (validarCodigo) return auth.generateToken(user)
-      return null
-    }catch(error){
-      throw new Error(error)
-    }
-  }
+
   getUserById = async (id) => {
     try {
       const user = await this.dao.getUserById(id);

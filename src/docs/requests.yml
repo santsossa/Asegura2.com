@@ -1,0 +1,96 @@
+# requests.yml
+components:
+  parameters:
+    schemas:
+      # Esquema para registrar un nuevo usuario
+      RegisterUser:
+        type: object
+        required:
+          - first_name
+          - last_name
+          - age
+          - email
+          - password
+        properties:
+          first_name:
+            type: string
+            description: Primer nombre del usuario
+          last_name:
+            type: string
+            description: Apellido del usuario
+          age:
+            type: integer
+            description: Edad del usuario
+          email:
+            type: string
+            description: Dirección de correo electrónico del usuario
+          password:
+            type: string
+            description: Contraseña del usuario
+        example:
+          first_name: "Juan"
+          last_name: "Pérez"
+          age: 25
+          email: "juan@asegura2.com.co"
+          password: "abc123def456"
+
+      # Esquema para el login del usuario
+      LoginUser:
+        type: object
+        required:   
+          - email
+          - password
+        properties:  
+          email:
+            type: string
+            description: Correo electrónico del usuario
+          password:
+            type: string
+            description: Contraseña del usuario
+        example:
+          email: "juan@asegura2.com.co"
+          password: "abc123def456"
+
+      # Esquema para la verificación del usuario mediante el código
+      VerifyUser:
+        type: object
+        required:
+          - codigoIngresado
+        properties:
+          code:
+            type: string
+            description: Código de verificación enviado al usuario
+        example:
+          code: "123456"
+
+      # Esquema para actualizar el perfil del usuario
+      UpdateProfile:
+        type: object
+        properties:
+          first_name:
+            type: string
+            description: Primer nombre del usuario
+          last_name:
+            type: string
+            description: Apellido del usuario
+          age:
+            type: integer
+            description: Edad del usuario
+          email:
+            type: string
+            description: Dirección de correo electrónico del usuario
+          role:
+            type: string
+            description: Rol del usuario (admin, user, etc.)
+        example:
+          first_name: "Juan"
+          last_name: "Pérez"
+          age: 25
+          email: "juan.newmail@example.com"
+          role: "user"
+
+  securitySchemes:
+    BearerAuth: # Nombre del esquema de seguridad
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

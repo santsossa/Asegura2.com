@@ -24,6 +24,7 @@ function generarCodigoSeguridad(email) {
 
     cache[email] = { codigo, expiracion };
     console.log(`Código ${codigo} generado para el usuario ${email}`);
+    console.log(cache)
     return codigo;
 }
 

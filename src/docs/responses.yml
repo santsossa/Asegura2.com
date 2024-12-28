@@ -1,0 +1,205 @@
+components:
+  schemas:
+    Users:
+      # Respuesta general para operaciones exitosas
+      SuccessResponse:
+        type: object
+        properties:
+          status:
+            type: number
+            description: Código de estado de la petición
+          message:
+            type: string
+            description: Estado de la petición
+          data:
+            type: object
+            description: Datos relacionados con la operación
+        example:
+          status: 200
+          message: Success
+          data: 
+            userId: "6d4f8c93-xxxx-4f74-xxxx-4c35f89e9e3c"
+            firstName: "John"
+            lastName: "Doe"
+            email: "johndoe@example.com"
+
+      # Respuesta con los detalles del perfil del usuario
+      ProfileResponse:
+        type: object
+        properties:
+          status:
+            type: number
+            description: Código de estado de la petición
+          message:
+            type: string
+            description: Estado de la petición
+          data:
+            type: object
+            description: Datos del usuario autenticado
+            properties:
+              first_name:
+                type: string
+              last_name:
+                type: string
+              email:
+                type: string
+              age:
+                type: number
+              role:
+                type: string
+              isGoogle:
+                type: boolean
+        example:
+          status: 200
+          message: Success
+          data:
+            first_name: "John"
+            last_name: "Doe"
+            email: "johndoe@example.com"
+            age: 30
+            role: "user"
+            isGoogle: false
+
+      # Respuesta de error común
+      ErrorResponse:
+        type: object
+        properties:
+          error:
+            type: string
+            example: "Error desconocido"
+          message:
+            type: string
+            example: "Detalles sobre el error"
+
+      # Respuesta para cuando el código de verificación es incorrecto
+      InvalidCodeResponse:
+        type: object
+        properties:
+          status:
+            type: number
+            description: Código de estado de la petición
+          message:
+            type: string
+            description: Estado de la petición
+        example:
+          status: 400
+          message: "Código de verificación incorrecto"
+
+      # Respuesta para cuando un usuario ya existe
+      UserExistsResponse:
+        type: object
+        properties:
+          status:
+            type: number
+            description: Código de estado de la petición
+          message:
+            type: string
+            description: Estado de la petición
+        example:
+          status: 404
+          message: "El usuario ya existe"
+
+      # Respuesta para una operación exitosa de verificación de código
+      TokenGeneratedResponse:
+        type: object
+        properties:
+          status:
+            type: number
+            description: Código de estado de la petición
+          message:
+            type: string
+            description: Estado de la petición
+          data:
+            type: string
+            description: El token generado (JWT)
+        example:
+          status: 200
+          message: Success
+          data: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU1MzZhZjU5ZGM3ZDcwZTczZDhjYWMiLCJpYXQiOjE2OTMzOTMzODIsImV4cCI6MTY5MzM5NDI4Mn0.3t3rqyv_3CPzd6yNnJgPvifmw2IBvY0Il7eqc4Zgh_w"
+
+      # Respuesta para la operación de registro exitoso
+      RegisterResponse:
+        type: object
+        properties:
+          status:
+            type: number
+            description: Código de estado de la petición
+          message:
+            type: string
+            description: Estado de la petición
+          data:
+            type: object
+            description: Datos del usuario registrado
+            properties:
+              userId:
+                type: string
+              firstName:
+                type: string
+              lastName:
+                type: string
+              email:
+                type: string
+        example:
+          status: 200
+          message: "Usuario registrado exitosamente"
+          data:
+            userId: "6d4f8c93-xxxx-4f74-xxxx-4c35f89e9e3c"
+            firstName: "John"
+            lastName: "Doe"
+            email: "johndoe@example.com"
+
+      # Respuesta para la operación de login exitoso
+      LoginResponse:
+        type: object
+        properties:
+          status:
+            type: number
+            description: Código de estado de la petición
+          message:
+            type: string
+            description: Estado de la petición
+          data:
+            type: object
+            description: Token y datos del usuario autenticado
+            properties:
+              token:
+                type: string
+              user:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+                  email:
+                    type: string
+        example:
+          status: 200
+          message: "Login exitoso"
+          data:
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU1MzZhZjU5ZGM3ZDcwZTczZDhjYWMiLCJpYXQiOjE2OTMzOTMzODIsImV4cCI6MTY5MzM5NDI4Mn0.3t3rqyv_3CPzd6yNnJgPvifmw2IBvY0Il7eqc4Zgh_w"
+            user:
+              userId: "6d4f8c93-xxxx-4f74-xxxx-4c35f89e9e3c"
+              firstName: "John"
+              lastName: "Doe"
+              email: "johndoe@example.com"
+
+      # Respuesta para cuando la operación de verificación es exitosa
+      VerificationResponse:
+        type: object
+        properties:
+          status:
+            type: number
+            description: Código de estado de la petición
+          message:
+            type: string
+            description: Estado de la petición
+          data:
+            type: string
+            description: El token generado (JWT) si la verificación es exitosa
+        example:
+          status: 200
+          message: "Verificación exitosa"
+          data: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU1MzZhZjU5ZGM3ZDcwZTczZDhjYWMiLCJpYXQiOjE2OTMzOTMzODIsImV4cCI6MTY5MzM5NDI4Mn0.3t3rqyv_3CPzd6yNnJgPvifmw2IBvY0Il7eqc4Zgh_w"
