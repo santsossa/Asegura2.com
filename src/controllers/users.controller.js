@@ -52,13 +52,21 @@ export default class UserControllers extends Controllers{
 
     profile= async( req, res, next)=>{
         try{
-            console.log(req.user)
             if(req.user){
                 const user= await this.service.getUserById(req.user.userId);
                 return createResponse(req, res, 200, user)
             }
         }catch(error){
         next(error);
+        }
+    };
+
+    panelAdmin= async (req,res,next)=>{
+        try{
+            const data= await this.service.getAll();
+            return createResponse(req, res, 200, data)
+        }catch(error){
+            next(error);
         }
     };
 };

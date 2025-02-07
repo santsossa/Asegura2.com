@@ -23,7 +23,7 @@ export default class UserService extends Services {
           password: createHash(password),
         });
         console.log(newUser)
-        return newUser;
+        return new UserDTO(newUser);
       }
       return null;
     } catch (error) {
@@ -39,7 +39,7 @@ export default class UserService extends Services {
       const passValid = isValidPassword(password, userExist);
       if (!passValid) return null;
       if (userExist && passValid) enviarCodigoSeguridad(email)
-      if (enviarCodigoSeguridad) return userExist
+      if (enviarCodigoSeguridad) return new UserDTO(userExist)
       return null
     } catch (error) {
       throw new Error(error);
@@ -64,3 +64,4 @@ export default class UserService extends Services {
     }
   };
 }
+

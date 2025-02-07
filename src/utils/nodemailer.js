@@ -6,8 +6,6 @@ export const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const cache = {};
 
-
-
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -56,13 +54,13 @@ export function validarCodigoSeguridad(email, codigoIngresado) {
 
     if (Date.now() > expiracion) {
         console.log('El código ha expirado');
-        delete cache[email]; // Eliminar después de expirar
+        delete cache[email]; 
         return false;
     }
 
     if (codigo === codigoIngresado) {
         console.log('Código válido');
-        delete cache[email]; // Eliminar después de validar
+        delete cache[email]; 
         return true;
     }
 

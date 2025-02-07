@@ -14,9 +14,9 @@ export default class Auth{
             email: user.email,
             role: user.role
         }
-        return jwt.sign(playload, SECRET_KEY, { expiresIn: time })
+        return jwt.sign(playload, SECRET_KEY)
     }
-
+   
     async verifyToken(jwt_playload, done){
         if(!jwt_playload) return done(null, false, {message: "user not found"})
         return done(null, jwt_playload)

@@ -16,6 +16,6 @@ router.post("/auth",  controller.verify);
 
 router.get("/current", passportCall('current'), controller.profile)
 
-router.get("/panel-admin", passportCall('current'), isAdmin, controller.profile)
+router.get("/panelAdmin", passportCall('current'), isAdmin, controller.panelAdmin)
 
 export default router;
